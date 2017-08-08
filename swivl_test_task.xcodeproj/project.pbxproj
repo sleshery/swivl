@@ -12,6 +12,8 @@
 		8477AD181F3A431100D46E77 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8477AD161F3A431100D46E77 /* Main.storyboard */; };
 		8477AD1A1F3A431100D46E77 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8477AD191F3A431100D46E77 /* Assets.xcassets */; };
 		8477AD1D1F3A431100D46E77 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8477AD1B1F3A431100D46E77 /* LaunchScreen.storyboard */; };
+		8477AD251F3A47F000D46E77 /* UserListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8477AD241F3A47F000D46E77 /* UserListTableViewController.swift */; };
+		8477AD271F3A4BE500D46E77 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8477AD261F3A4BE500D46E77 /* SwiftyJSON.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		8477AD191F3A431100D46E77 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8477AD1C1F3A431100D46E77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8477AD1E1F3A431100D46E77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8477AD241F3A47F000D46E77 /* UserListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserListTableViewController.swift; sourceTree = "<group>"; };
+		8477AD261F3A4BE500D46E77 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +61,8 @@
 				8477AD121F3A431100D46E77 /* AppDelegate.swift */,
 				8477AD141F3A431100D46E77 /* ViewController.swift */,
 				8477AD161F3A431100D46E77 /* Main.storyboard */,
+				8477AD261F3A4BE500D46E77 /* SwiftyJSON.swift */,
+				8477AD241F3A47F000D46E77 /* UserListTableViewController.swift */,
 				8477AD191F3A431100D46E77 /* Assets.xcassets */,
 				8477AD1B1F3A431100D46E77 /* LaunchScreen.storyboard */,
 				8477AD1E1F3A431100D46E77 /* Info.plist */,
@@ -137,8 +143,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8477AD251F3A47F000D46E77 /* UserListTableViewController.swift in Sources */,
 				8477AD151F3A431100D46E77 /* ViewController.swift in Sources */,
 				8477AD131F3A431100D46E77 /* AppDelegate.swift in Sources */,
+				8477AD271F3A4BE500D46E77 /* SwiftyJSON.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,6 +312,7 @@
 				8477AD231F3A431100D46E77 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
