@@ -30,16 +30,18 @@ class UserListTableViewController: UITableViewController {
     
     func loadAvatars() {
         
-        for (id, user) in users.enumerated() {
-            
-            let url = URL(string: user.avatarURL!)
-            let data = try? Data(contentsOf: url!)
-            //DispatchQueue.main.sync() {
-            users[id].avatar = UIImage(data: data!)
-            print("\(id) - \(user.avatarURL!)")
-            //}
+        DispatchQueue.global(qos: .utility).async {
+            for (id, user) in self.users.enumerated() {
+                
+                let url = URL(string: user.avatarURL!)
+                let data = try? Data(contentsOf: url!)
+                //DispatchQueue.main.sync() {
+                self.users[id].avatar = UIImage(data: data!)
+                print("\(id) - \(user.avatarURL!)")
+                //}
+            }
         }
-        //tableView.reloadData()
+        
     }
     
     func loadGit() {
@@ -92,7 +94,11 @@ class UserListTableViewController: UITableViewController {
                     self.users.append(user)
                 }
                 
-             self.tableView.reloadData()
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+             
+                
                 print(self.users.count)
                 self.loadAvatars()
             }
