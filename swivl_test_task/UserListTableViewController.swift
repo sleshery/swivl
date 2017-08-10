@@ -15,6 +15,7 @@ class UserListTableViewController: UITableViewController {
         var login: String?
         var htmlURL: String?
         var avatarURL: String?
+        var avatar: UIImage?
         
         init() {
             
@@ -22,17 +23,34 @@ class UserListTableViewController: UITableViewController {
         
     }
     
+    let cellIdentifier = "UserCell"
+    let placeholderImg = #imageLiteral(resourceName: "loading")
     var users = [gitUser]()
+    let perPage = 100
+    
+    func loadAvatars() {
+        
+        for (id, user) in users.enumerated() {
+            
+            let url = URL(string: user.avatarURL!)
+            let data = try? Data(contentsOf: url!)
+            //DispatchQueue.main.sync() {
+            users[id].avatar = UIImage(data: data!)
+            print("\(id) - \(user.avatarURL!)")
+            //}
+        }
+        //tableView.reloadData()
+    }
     
     func loadGit() {
         
         users.removeAll()
         
-        let theurl = "https://api.github.com/users?since=0"
+        let theurl = "https://api.github.com/users?since=0&page=1&per_page=\(perPage)"
         let requestURL: URL = URL(string: theurl.addingPercentEncoding( withAllowedCharacters: CharacterSet.urlQueryAllowed)!)!
         print(requestURL)
         let urlRequest: NSMutableURLRequest = NSMutableURLRequest(url: requestURL)
-        urlRequest.setValue("<https://api.github.com/users?page=1&per_page=100>; rel=\"first\"", forHTTPHeaderField: "Link")
+        urlRequest.setValue("application/vnd.github.v3+json", forHTTPHeaderField: "Accept")
         let session = URLSession.shared
         let task = session.dataTask(with: urlRequest as URLRequest, completionHandler: {
             (data1, response, error) -> Void in
@@ -70,16 +88,20 @@ class UserListTableViewController: UITableViewController {
                     user.login = subJson["login"].string
                     user.htmlURL = subJson["html_url"].string
                     user.avatarURL = subJson["avatar_url"].string
+                    user.avatar = self.placeholderImg
                     self.users.append(user)
                 }
                 
              self.tableView.reloadData()
+                print(self.users.count)
+                self.loadAvatars()
             }
                 
             else {print("Error - no response")}
         })
         
         task.resume()
+        
         
     }
 
@@ -115,13 +137,18 @@ class UserListTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CellID", for: indexPath)
 
-        cell.textLabel?.text = self.users[indexPath.row].login ?? "O_o"
-        // Configure the cell...
-
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? UserCellTableViewCell  else {
+            fatalError("The dequeued cell is not an instance of UserCellTableViewCell.")
+        }
+        cell.loginL.text = users[indexPath.row].login ?? "LOGIN"
+        cell.htmlUrlL.text = users[indexPath.row].htmlURL ?? "URL"
+        cell.avatarIV.image = #imageLiteral(resourceName: "loading")
+        cell.avatarIV.image = users[indexPath.row].avatar ?? #imageLiteral(resourceName: "loading")
         return cell
     }
+    
+
     
 
     /*
@@ -168,5 +195,28 @@ class UserListTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    @IBAction func unwindToList(sender: UIStoryboardSegue) {
+        //if let sourceViewController = sender.source as? FollowersListViewController {
+
+            
+        //}
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        super.prepare(for: segue, sender: sender)
+        
+        // Configure the destination view controller only when the save button is pressed.
+        guard let navDestination = segue.destination as? UINavigationController,
+            let destination = navDestination.topViewController as? FollowersListViewController
+            else {return}
+        if let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell) {
+            
+            destination.user = users[indexPath.row].login!
+            destination.navigationItem.title = "Followers of \(destination.user!)"
+        }
+        
+    }
 
 }
